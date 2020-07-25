@@ -505,5 +505,6 @@ MigrationBackup/
 gif/
 plot.png
 .DS_Store
+plot*
 
 # End of https://www.toptal.com/developers/gitignore/api/python,visualstudio,visualstudiocode
