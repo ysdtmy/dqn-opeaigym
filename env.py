@@ -1,9 +1,10 @@
-# -*- encoding utf8 -*- 
+# -*- encoding utf8 -*-
 
 import gym
 from gym import wrappers
 import numpy
 import os
+
 
 class Env:
 
@@ -19,46 +20,48 @@ class Env:
     def render(self):
         raise NotImplementedError
 
+
 class OpenAiEnv(Env):
 
     def __init__(self, env, savegif=False, gifpath='./gif'):
-        self.env = gym.make(env) 
+        self.env = gym.make(env)
         self.savegif = savegif
 
-        #save gif
+        # save gif
         if self.savegif:
             if not os.path.exists(gifpath):
-               os.mkdir(gifpath)
-            self.env = wrappers.Monitor(self.env, gifpath, force=True, video_callable= lambda epi : epi % 5 == 0)
-        
-    
+                os.mkdir(gifpath)
+            self.env = wrappers.Monitor(
+                self.env, gifpath, force=True, video_callable=lambda epi: epi % 5 == 0)
+
     def reset(self):
         return self.env.reset()
-    
+
     def step(self, action):
         return self.env.step(action)
-    
+
     def render(self):
         self.env.render()
-    
+
     def sample_action(self):
         return self.env.action_space.sample()
-    
+
     def get_action_space(self):
         return self.env.action_space.n
-    
+
     def get_observation_space(self):
         return self.env.observation_space.shape[0]
 
     def close(self):
         self.env.close()
 
+
 class CartPoleEnv(OpenAiEnv):
 
     def __init__(self, env='CartPole-v0', savegif=False, gifpath='./gif'):
         super().__init__(env, savegif, gifpath)
         self.totalsteps = 0
-    
+
     def reset(self):
         self.totalsteps = 0
         if self.savegif:
@@ -75,13 +78,13 @@ class CartPoleEnv(OpenAiEnv):
             reward = 0
         else:
             reward = 1
-        
+
         if done:
             reward = 0
 
-        return n_state, reward, done, info 
-        
+        return n_state, reward, done, info
+
 
 if __name__ == "__main__":
-    ENV = 'CartPole-v0' 
+    ENV = 'CartPole-v0'
     env = OpenAiEnv(ENV)

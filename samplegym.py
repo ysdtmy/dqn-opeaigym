@@ -1,9 +1,9 @@
-# -*- encoding utf8 -*- 
+# -*- encoding utf8 -*-
 
 # import gym
 from env import *
 
-ENV = 'CartPole-v0' 
+ENV = 'CartPole-v0'
 
 env = OpenAiEnv(ENV)
 for i_episode in range(20):
